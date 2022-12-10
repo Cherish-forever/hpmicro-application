@@ -6,11 +6,11 @@ manifest:
     west-commands: scripts/west-commands.yml
 
   remotes:
-    - name: zephyrproject-rtos
-      url-base: https://github.com/zephyrproject-rtos
+    - name: hpmicro
+      url-base: https://github.com/hpmicro
 
   projects:
     - name: zephyr
-      remote: zephyrproject-rtos
-      revision: main
+      remote: hpmicro
+      revision: "feature/add_hpmicro_device_support_ver3.1rc"
       import: true

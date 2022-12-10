@@ -1,4 +1,4 @@
-# Zephyr Example Application
+# HPmirco Zephyr Example Application
 
 This repository contains a Zephyr example application. The main purpose of this
 repository is to serve as a reference on how to structure Zephyr-based
@@ -46,10 +46,14 @@ command:
 
 ```shell
 # initialize my-workspace for the example-application (main branch)
-west init -m https://github.com/zephyrproject-rtos/example-application --mr main my-workspace
+west init -m https://github.com/Cherish-forever/hpmicro-application --mr hpmicro my-workspace
 # update Zephyr modules
 cd my-workspace
 west update
+```
+###  Change the default build directory
+```shell
+west config build.dir-fmt "build/{app}/{board}"
 ```
 
 ### Building and running
@@ -57,7 +61,45 @@ west update
 To build the application, run the following command:
 
 ```shell
-west build -b $BOARD app
+west build -b hpm6750evkmini -s zephyr/samples/basic/blinky
+```
+
+### Install HPmirco openocd
+```shell
+git clone -b riscv-hpmicro https://github.com/hpmicro/riscv-openocd.git && cd riscv-openocd
+sudo apt install make libtool pkg-config autoconf automake texinfo
+./bootstrap
+./configure
+make -j4
+sudo make install
+```
+
+If you are using zephyr SDK to debug firmware, you need replace openocd in zephyr SDK by: (NOT RECOMMENDED!)
+```shell
+./configure --prefix <path to zephyr sdk>/sysroots/x86_64-pokysdk-linux/usr
+make -j4
+sudo make install
+```
+
+
+### Flash
+```shell
+west flash -d build/blinky/hpm6750evkmini/
+```
+I don`t know why flash the binary not works.
+
+### Debug
+```shell
+west debug -d build/blinky/hpm6750evkmini/
+```
+set break at main
+```shell
+b main.c:main
+```
+
+continue run
+```shell
+c
 ```
 
 where `$BOARD` is the target board.
